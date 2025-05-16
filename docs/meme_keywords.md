@@ -16,4 +16,5 @@
 | sm | sm |
 | spinner | 陀螺 |
 | sunflower | 太阳花 |
+| turtle_jue | 龟龟撅 |
 | yo_yo | yoyo |

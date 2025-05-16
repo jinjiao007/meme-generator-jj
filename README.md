@@ -13,7 +13,7 @@
 | mix_dog | 小狗 |
 | my_certificate | 我的证 |
 | onepunch | 给你一拳 |
-| pineapple | 菠萝|
+| pineapple | 菠萝, pineapple |
 | play_baseball | 打棒球 |
 | police_car | 警车 |
 | shadow_boxing | 太极 |
@@ -21,6 +21,7 @@
 | sm | sm |
 | spinner | 陀螺 |
 | sunflower | 太阳花 |
+| turtle_jue | 龟龟撅 |
 | yo_yo | yoyo |
 
 ## 使用方式
