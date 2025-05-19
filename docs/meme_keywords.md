@@ -2,8 +2,10 @@
 
 | 模块 | 关键词 |
 |------|--------|
+| [capoozhao](../memes/capoozhao) | 咖波照 |
 | [chuangfei](../memes/chuangfei) | 创飞 |
 | [dafen](../memes/dafen) | 打分 |
+| [dorotuodi](../memes/dorotuodi) | doro拖地 |
 | [doroya](../memes/doroya) | doro鸭 |
 | [get_up](../memes/get_up) | 起床 |
 | [gongzei](../memes/gongzei) | 工贼 |
