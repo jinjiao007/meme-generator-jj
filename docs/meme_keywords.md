@@ -4,6 +4,7 @@
 |------|--------|
 | [chuangfei](./memes/chuangfei) | 创飞 |
 | [dafen](./memes/dafen) | 打分 |
+| [doroya](./memes/doroya) | doro鸭 |
 | [get_up](./memes/get_up) | 起床 |
 | [gongzei](./memes/gongzei) | 工贼 |
 | [interaction](./memes/interaction) | 互动 |
