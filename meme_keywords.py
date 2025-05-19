@@ -30,7 +30,9 @@ def generate_markdown_table(keywords_by_module):
     lines = ["# Meme Keywords\n", "| 模块 | 关键词 |", "|------|--------|"]
     for module, keywords in sorted(keywords_by_module.items()):
         kw_str = ", ".join(keywords) if keywords else "（无）"
-        lines.append(f"| {module} | {kw_str} |")
+        # 生成指向文件夹的相对链接
+        module_link = f"[{module}]({MEMES_DIR}/{module})"
+        lines.append(f"| {module_link} | {kw_str} |")
     return "\n".join(lines)
 
 def main():
