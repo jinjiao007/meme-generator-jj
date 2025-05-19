@@ -31,7 +31,7 @@ def generate_markdown_table(keywords_by_module):
     for module, keywords in sorted(keywords_by_module.items()):
         kw_str = ", ".join(keywords) if keywords else "（无）"
         # 生成指向文件夹的相对链接
-        module_link = f"[{module}]({MEMES_DIR}/{module})"
+        module_link = f"[{module}](.{MEMES_DIR}/{module})"
         lines.append(f"| {module_link} | {kw_str} |")
     return "\n".join(lines)
 
