@@ -10,6 +10,7 @@
 | [get_up](../memes/get_up) | 起床 |
 | [gongzei](../memes/gongzei) | 工贼 |
 | [interaction](../memes/interaction) | 互动 |
+| [keliplay](../memes/keliplay) | 可莉打 |
 | [mix_dog](../memes/mix_dog) | 小狗 |
 | [my_certificate](../memes/my_certificate) | 我的证 |
 | [myplay](../memes/myplay) | 我打 |
