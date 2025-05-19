@@ -20,7 +20,7 @@ def capoozhao(images: list[BuildImage], texts: list[str], args):
         img2 = images[0].convert("RGBA").circle().resize((62, 68))
 
         # 帧位置定义
-        head_locs_1 = [(25, 140), (25, 140), (25, 140)]  # 1-3帧的坐标
+        head_locs_1 = [(31, 144),(25, 140), (25, 140), (25, 140)]  # 1-3帧的坐标
         head_locs_2 = [(20, 137), (20, 137), (20, 137)]  # 4-6帧的坐标
 
         # 处理文本
@@ -44,7 +44,7 @@ def capoozhao(images: list[BuildImage], texts: list[str], args):
             png_img = BuildImage.open(img_dir / f"{i}.png")
             frame.paste(png_img, alpha=True)
             # 1-3帧粘贴第一张头像
-            if 1 <= i <= 3:
+            if 0 <= i <= 3:
                 if i - 1 < len(head_locs_1):
                     frame.paste(img1, head_locs_1[i - 1], alpha=True)
             # 4-6帧粘贴第二张头像
