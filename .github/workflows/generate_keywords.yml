@@ -1,0 +1,35 @@
+name: Generate Meme Keywords
+
+on:
+  push:
+    branches:
+      - master         # 监听 master 分支的 push
+  workflow_dispatch:   # 允许手动执行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+
+      - name: Run meme_keywords.py
+        run: python meme_keywords.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/meme_keywords.md
+          git commit -m "🤖 Auto-generate meme_keywords.md" || echo "No changes to commit"
+          git push
