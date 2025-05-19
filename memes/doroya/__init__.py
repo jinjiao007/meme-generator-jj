@@ -1,5 +1,6 @@
 from datetime import datetime
 from pathlib import Path
+from math import pi, cos, sin
 import numpy as np
 
 from PIL.Image import Image as IMG
@@ -12,37 +13,19 @@ img_dir = Path(__file__).parent / "images"
 
 
 def doroya(images: list[BuildImage], texts, args):
-    img = images[0].convert("RGBA").circle().resize((150, 150))  # 用户头像
+    img = images[0].convert("RGBA").circle().resize((192, 156))  # 用户头像
 
-    # 定义旋转角度（顺时针为正，逆时针为负）
-    rotate_angles = [0, -15, 5, 15, 30, 5]  # 1和2帧顺时针15°，3、4、5帧逆时针15°
-    
-    # 定义各帧的位置
+    # fmt: off
     locs = [
-        (124, 135), (124, 135), (124, 120), (105, 115), (83, 110), (100, 112)
+        (88, 82), (88, 85), (52, 89), (90, 77), (84, 88), (52, 88)
     ]
-    
-    # 获取背景图片的大小
-    background_size = BuildImage.open(img_dir / "0.png").size
-    
+    # fmt: on
     frames: list[IMG] = []
     for i in range(6):
-        # 创建透明背景图
-        transparent_background = BuildImage.new("RGBA", background_size, (0, 0, 0, 0))
-        
-        # 旋转头像
-        rotated_img = img.rotate(rotate_angles[i] if i < len(rotate_angles) else 0, expand=True)
-        
-        # 将旋转后的头像粘贴到透明背景图的指定位置
-        transparent_background.paste(rotated_img, locs[i % len(locs)], alpha=True)
-        
-        # 打开背景图片并粘贴到透明背景图上
-        background = BuildImage.open(img_dir / f"{i}.png")
-        transparent_background.paste(background, alpha=True)
-        
-        frames.append(transparent_background.image)
-    
-    return save_gif(frames, 0.08)
+        frame = BuildImage.open(img_dir / f"{i}.png")
+        frame.paste(img, locs[i], alpha=True)
+        frames.append(frame.image)
+    return save_gif(frames, 0.1)
 
 
 add_meme(
