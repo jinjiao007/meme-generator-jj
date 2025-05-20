@@ -16,6 +16,7 @@
 | [my_certificate](../memes/my_certificate) | 我的证 | <img src="../memes/my_certificate/images/niuma.png" width="100"> |
 | [myplay](../memes/myplay) | 我打 | <img src="../memes/myplay/images/0.png" width="100"> |
 | [onepunch](../memes/onepunch) | 给你一拳 | <img src="../memes/onepunch/images/0.png" width="100"> |
+| [penshui](../memes/penshui) | 喷水 | <img src="../memes/penshui/images/0.png" width="100"> |
 | [pineapple](../memes/pineapple) | 菠萝, pineapple | <img src="../memes/pineapple/images/0.png" width="100"> |
 | [play_baseball](../memes/play_baseball) | 打棒球 | <img src="../memes/play_baseball/images/0.png" width="100"> |
 | [police_car](../memes/police_car) | 警车 | <img src="../memes/police_car/images/0.png" width="100"> |
