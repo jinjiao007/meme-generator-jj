@@ -38,7 +38,7 @@ def find_first_image_path(subdir):
     return None
 
 def generate_markdown_table(keywords_by_module, previews_by_module):
-    lines = ["# Meme Keywords\n", "| 模块 | 关键词 | 预览 |", "|------|--------|------|"]
+    lines = ["| 模块 | 关键词 | 预览 |", "|------|--------|------|"]
     for module in sorted(keywords_by_module):
         keywords = keywords_by_module[module]
         kw_str = ", ".join(keywords) if keywords else "（无）"
@@ -62,6 +62,7 @@ def main():
 
     keywords_by_module = {}
     previews_by_module = {}
+    total_keywords = 0
 
     for folder in os.listdir(MEMES_DIR):
         subdir = os.path.join(MEMES_DIR, folder)
@@ -70,6 +71,7 @@ def main():
         if os.path.isdir(subdir) and os.path.isfile(init_file):
             keywords = extract_keywords_from_init(init_file)
             keywords_by_module[folder] = keywords
+            total_keywords += len(keywords)
 
             image_path = find_first_image_path(subdir)
             if image_path:
@@ -77,7 +79,10 @@ def main():
                 relative_path = os.path.relpath(image_path, OUTPUT_DIR).replace("\\", "/")
                 previews_by_module[folder] = relative_path
 
-    markdown = generate_markdown_table(keywords_by_module, previews_by_module)
+    # 添加总表情数到 markdown 开头
+    header = f"# ✨Meme Keywords\n\n**🎈总表情数：{total_keywords}**\n"
+    markdown_table = generate_markdown_table(keywords_by_module, previews_by_module)
+    markdown = header + "\n" + markdown_table
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write(markdown)
