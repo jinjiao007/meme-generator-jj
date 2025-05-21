@@ -46,8 +46,8 @@ def xile(images: list[BuildImage], texts: list[str], args):
             png_img = BuildImage.open(img_dir / "xiyiji.png")    
             frame.paste(png_img, alpha=True)       
 
-            # 计算旋转角度（0-21帧逐帧旋转90°）
-            angle = -90 * (i + 1)   # 顺时针旋转
+            # 计算旋转角度（0-21帧逐帧旋转60°）
+            angle = -60 * (i + 1)   # 顺时针旋转
 
             # 旋转头像
             rotated_img = img.rotate(angle, expand=True)
