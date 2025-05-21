@@ -39,7 +39,7 @@ def xile(images: list[BuildImage], texts: list[str], args):
         background = BuildImage.open(img_dir / "xiyiji.png")  # 打开背景图
 
         # 定义各帧的持续时间（秒）
-        durations = [0.08] * 7 + [0.01] * 12 + [0.2] * 3
+        durations = [0.08] * 3 + [0.05] * 12 + [0.15] * 7
 
         for i in range(22):
             frame = BuildImage.new("RGBA", (background.width, background.height))           
