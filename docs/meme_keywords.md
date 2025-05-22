@@ -1,6 +1,6 @@
 # ✨Meme Keywords
 
-**🎈总表情数：31**
+**🎈总表情数：32**
 
 | 模块 | 关键词 | 预览 |
 |------|--------|------|
@@ -12,6 +12,7 @@
 | [dorotuodi](../memes/dorotuodi) | doro拖地 | <img src="../memes/dorotuodi/images/0.png" width="100"> |
 | [doroya](../memes/doroya) | doro鸭 | <img src="../memes/doroya/images/0.png" width="100"> |
 | [electrify_you](../memes/electrify_you) | 电死你 | <img src="../memes/electrify_you/images/0.png" width="100"> |
+| [fulilian_v50](../memes/fulilian_v50) | 芙莉莲v50 | <img src="../memes/fulilian_v50/images/v50.png" width="100"> |
 | [get_up](../memes/get_up) | 起床 | <img src="../memes/get_up/images/0.png" width="100"> |
 | [gongzei](../memes/gongzei) | 工贼 | <img src="../memes/gongzei/images/0.png" width="100"> |
 | [interaction](../memes/interaction) | 互动 | <img src="../memes/interaction/images/0.png" width="100"> |
