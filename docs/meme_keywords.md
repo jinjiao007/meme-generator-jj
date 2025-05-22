@@ -1,11 +1,12 @@
 # ✨Meme Keywords
 
-**🎈总表情数：30**
+**🎈总表情数：31**
 
 | 模块 | 关键词 | 预览 |
 |------|--------|------|
 | [caosini](../memes/caosini) | 炒你 | <img src="../memes/caosini/images/0.png" width="100"> |
 | [capoozhao](../memes/capoozhao) | 咖波照 | <img src="../memes/capoozhao/images/0.png" width="100"> |
+| [chiikawa](../memes/chiikawa) | 吉伊卡哇 | <img src="../memes/chiikawa/images/0.png" width="100"> |
 | [chuangfei](../memes/chuangfei) | 创飞 | <img src="../memes/chuangfei/images/0.png" width="100"> |
 | [dafen](../memes/dafen) | 打分 | <img src="../memes/dafen/images/0.png" width="100"> |
 | [dorotuodi](../memes/dorotuodi) | doro拖地 | <img src="../memes/dorotuodi/images/0.png" width="100"> |
