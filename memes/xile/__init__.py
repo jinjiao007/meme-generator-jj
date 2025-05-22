@@ -25,7 +25,7 @@ def xile(images: list[BuildImage], texts: list[str], args):
         # 处理文本
         if not texts:
             raise ValueError("No text provided")
-        text = f"{texts[0]}"
+        text = "救我，我要洗了"
         text2image = Text2Image.from_text(
             text, 35, fill=(0, 0, 0), stroke_width=0.2, stroke_fill="",
             font_families=["System"]
