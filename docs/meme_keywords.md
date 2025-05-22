@@ -1,6 +1,6 @@
 # ✨Meme Keywords
 
-**🎈总表情数：29**
+**🎈总表情数：30**
 
 | 模块 | 关键词 | 预览 |
 |------|--------|------|
@@ -30,5 +30,6 @@
 | [sunflower](../memes/sunflower) | 太阳花 | <img src="../memes/sunflower/images/0.png" width="100"> |
 | [turtle_jue](../memes/turtle_jue) | 龟龟撅 | <img src="../memes/turtle_jue/images/0.png" width="100"> |
 | [wuyingtui](../memes/wuyingtui) | 无影腿 | <img src="../memes/wuyingtui/images/0.png" width="100"> |
+| [xiatou](../memes/xiatou) | 丅亠 | <img src="../memes/xiatou/images/0.png" width="100"> |
 | [xile](../memes/xile) | 洗了 | <img src="../memes/xile/images/xiyiji.png" width="100"> |
 | [yo_yo](../memes/yo_yo) | yoyo | <img src="../memes/yo_yo/images/0.png" width="100"> |
