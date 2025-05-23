@@ -1,11 +1,12 @@
 import os
 import ast
+from datetime import datetime
 
 MEMES_DIR = "./memes"
 OUTPUT_DIR = "./docs"
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "meme_keywords.md")
 
-def extract_keywords_from_init(file_path):
+def extract_info_from_init(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
         source = f.read()
 
@@ -13,9 +14,10 @@ def extract_keywords_from_init(file_path):
         tree = ast.parse(source)
     except Exception as e:
         print(f"❌ 解析失败 {file_path}: {e}")
-        return []
+        return [], None
 
     keywords = []
+    date_created = None
 
     for node in ast.walk(tree):
         if isinstance(node, ast.Call) and getattr(node.func, 'id', '') == 'add_meme':
@@ -24,7 +26,12 @@ def extract_keywords_from_init(file_path):
                     for elt in kw.value.elts:
                         if isinstance(elt, ast.Str):
                             keywords.append(elt.s)
-    return keywords
+                if kw.arg == 'date_created' and isinstance(kw.value, ast.Call) and getattr(kw.value.func, 'id', '') == 'datetime':
+                    args = kw.value.args
+                    if len(args) >= 3 and all(isinstance(a, ast.Constant) for a in args[:3]):
+                        year, month, day = args[0].value, args[1].value, args[2].value
+                        date_created = datetime(year, month, day)
+    return keywords, date_created
 
 def find_first_image_path(subdir):
     images_dir = os.path.join(subdir, "images")
@@ -33,35 +40,24 @@ def find_first_image_path(subdir):
 
     for file in sorted(os.listdir(images_dir)):
         if file.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".webp")):
-            return os.path.join(images_dir, file).replace("\\", "/")  # 转换为适合 Markdown 的路径
-
+            return os.path.join(images_dir, file).replace("\\", "/")
     return None
 
-def generate_markdown_table(keywords_by_module, previews_by_module):
-    lines = ["| 模块 | 关键词 | 预览 |", "|------|--------|------|"]
-    for module in sorted(keywords_by_module):
-        keywords = keywords_by_module[module]
-        kw_str = ", ".join(keywords) if keywords else "（无）"
-
-        # 保留模块链接
+def generate_markdown_table(modules_info):
+    lines = ["| 序号 | 模块 | 关键词 | 创建日期 | 预览 |", "|------|------|--------|------------|------|"]
+    for idx, (module, info) in enumerate(modules_info, 1):
+        kw_str = ", ".join(info["keywords"]) if info["keywords"] else "（无）"
         module_link = f"[{module}](.{MEMES_DIR}/{module})"
-
-        # 添加预览图片
-        image_path = previews_by_module.get(module)
-        if image_path:
-            preview_img = f'<img src="{image_path}" width="100">'
-        else:
-            preview_img = "（无）"
-
-        lines.append(f"| {module_link} | {kw_str} | {preview_img} |")
+        date_str = info["date_created"].strftime("%Y-%m-%d") if info["date_created"] else "未知"
+        preview_img = f'<img src="{info["preview"]}" width="100">' if info["preview"] else "（无）"
+        lines.append(f"| {idx} | {module_link} | {kw_str} | {date_str} | {preview_img} |")
     return "\n".join(lines)
 
 def main():
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
 
-    keywords_by_module = {}
-    previews_by_module = {}
+    modules_info = []
     total_keywords = 0
 
     for folder in os.listdir(MEMES_DIR):
@@ -69,19 +65,26 @@ def main():
         init_file = os.path.join(subdir, "__init__.py")
 
         if os.path.isdir(subdir) and os.path.isfile(init_file):
-            keywords = extract_keywords_from_init(init_file)
-            keywords_by_module[folder] = keywords
+            keywords, date_created = extract_info_from_init(init_file)
             total_keywords += len(keywords)
 
             image_path = find_first_image_path(subdir)
-            if image_path:
-                # 转换为相对路径用于 markdown
-                relative_path = os.path.relpath(image_path, OUTPUT_DIR).replace("\\", "/")
-                previews_by_module[folder] = relative_path
+            relative_path = os.path.relpath(image_path, OUTPUT_DIR).replace("\\", "/") if image_path else None
 
-    # 添加总表情数到 markdown 开头
+            modules_info.append((
+                folder,
+                {
+                    "keywords": keywords,
+                    "date_created": date_created or datetime.min,
+                    "preview": relative_path
+                }
+            ))
+
+    # 按 date_created 倒序排序
+    modules_info.sort(key=lambda x: x[1]["date_created"], reverse=True)
+
     header = f"# ✨Meme Keywords\n\n**🎈总表情数：{total_keywords}**\n"
-    markdown_table = generate_markdown_table(keywords_by_module, previews_by_module)
+    markdown_table = generate_markdown_table(modules_info)
     markdown = header + "\n" + markdown_table
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
