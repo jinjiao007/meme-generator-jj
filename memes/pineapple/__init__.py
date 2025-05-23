@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 from pathlib import Path
 from pil_utils import BuildImage
@@ -54,5 +55,7 @@ add_meme(
     pineapple,
     min_images=1,
     max_images=1,
-    keywords=["菠萝", "pineapple"]
+    keywords=["菠萝", "pineapple"],
+    date_created=datetime(2024, 11, 10),
+    date_modified=datetime(2024, 11, 10),
 )
