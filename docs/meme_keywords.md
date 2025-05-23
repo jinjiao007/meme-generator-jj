@@ -35,4 +35,4 @@
 | 29 | [spinner](../memes/spinner) | 陀螺 | 2025-05-13 | <img src="../memes/spinner/images/0.png" width="100"> |
 | 30 | [interaction](../memes/interaction) | 互动 | 2025-05-12 | <img src="../memes/interaction/images/0.png" width="100"> |
 | 31 | [turtle_jue](../memes/turtle_jue) | 龟龟撅 | 2025-05-12 | <img src="../memes/turtle_jue/images/0.png" width="100"> |
-| 32 | [pineapple](../memes/pineapple) | 菠萝, pineapple | 1-01-01 | <img src="../memes/pineapple/images/0.png" width="100"> |
+| 32 | [pineapple](../memes/pineapple) | 菠萝, pineapple | 2024-11-10 | <img src="../memes/pineapple/images/0.png" width="100"> |
