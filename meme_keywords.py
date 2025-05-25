@@ -6,7 +6,8 @@ MEMES_DIR = "./memes"
 OUTPUT_DIR = "./docs"
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "meme_keywords.md")
 
-def extract_info_from_init(file_path):
+
+def extract_meme_info(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
         source = f.read()
 
@@ -14,24 +15,33 @@ def extract_info_from_init(file_path):
         tree = ast.parse(source)
     except Exception as e:
         print(f"❌ 解析失败 {file_path}: {e}")
-        return [], None
-
-    keywords = []
-    date_created = None
+        return None
 
     for node in ast.walk(tree):
         if isinstance(node, ast.Call) and getattr(node.func, 'id', '') == 'add_meme':
+            info = {
+                "keywords": [],
+                "min_images": None,
+                "min_texts": None,
+                "default_texts": [],
+                "date_created": None,
+            }
             for kw in node.keywords:
                 if kw.arg == 'keywords' and isinstance(kw.value, ast.List):
-                    for elt in kw.value.elts:
-                        if isinstance(elt, ast.Str):
-                            keywords.append(elt.s)
-                if kw.arg == 'date_created' and isinstance(kw.value, ast.Call) and getattr(kw.value.func, 'id', '') == 'datetime':
-                    args = kw.value.args
-                    if len(args) >= 3 and all(isinstance(a, ast.Constant) for a in args[:3]):
-                        year, month, day = args[0].value, args[1].value, args[2].value
-                        date_created = datetime(year, month, day)
-    return keywords, date_created
+                    info["keywords"] = [elt.s for elt in kw.value.elts if isinstance(elt, ast.Str)]
+                elif kw.arg == 'min_images' and isinstance(kw.value, ast.Constant):
+                    info["min_images"] = kw.value.value
+                elif kw.arg == 'min_texts' and isinstance(kw.value, ast.Constant):
+                    info["min_texts"] = kw.value.value
+                elif kw.arg == 'default_texts' and isinstance(kw.value, ast.List):
+                    info["default_texts"] = [elt.s for elt in kw.value.elts if isinstance(elt, ast.Str)]
+                elif kw.arg == 'date_created' and isinstance(kw.value, ast.Call) and getattr(kw.value.func, 'id', '') == 'datetime':
+                    args = [a.n for a in kw.value.args if isinstance(a, ast.Constant)]
+                    if len(args) >= 3:
+                        info["date_created"] = datetime(*args)
+            return info
+    return None
+
 
 def find_first_image_path(subdir):
     images_dir = os.path.join(subdir, "images")
@@ -43,54 +53,56 @@ def find_first_image_path(subdir):
             return os.path.join(images_dir, file).replace("\\", "/")
     return None
 
-def generate_markdown_table(modules_info):
-    lines = ["| 序号 | 模块 | 关键词 | 创建日期 | 预览 |", "|------|------|--------|------------|------|"]
+
+def generate_markdown_table(modules_info, previews_by_module):
+    lines = [
+        "| # | 模块 | 关键词 | 创建日期 | 图片数 | 文字数 | 默认文字 | 预览 |",
+        "|---|------|--------|-----------|--------|--------|------------|------|"
+    ]
     for idx, (module, info) in enumerate(modules_info, 1):
-        kw_str = ", ".join(info["keywords"]) if info["keywords"] else "（无）"
+        kw_str = ", ".join(info["keywords"]) if info["keywords"] else "&nbsp;"
         module_link = f"[{module}](.{MEMES_DIR}/{module})"
-        date_str = info["date_created"].strftime("%Y-%m-%d") if info["date_created"] else "未知"
-        preview_img = f'<img src="{info["preview"]}" width="100">' if info["preview"] else "（无）"
-        lines.append(f"| {idx} | {module_link} | {kw_str} | {date_str} | {preview_img} |")
+        date_str = info["date_created"].strftime("%Y-%m-%d") if info["date_created"] else "&nbsp;"
+        image_count = str(info.get("min_images")) if info.get("min_images") is not None else "&nbsp;"
+        text_count = str(info.get("min_texts")) if info.get("min_texts") is not None else "&nbsp;"
+        default_texts = ", ".join(t.replace("\n", "") for t in info["default_texts"]) if info["default_texts"] else "&nbsp;"
+        preview = f'<img src="{previews_by_module.get(module)}" width="100">' if module in previews_by_module else "&nbsp;"
+        lines.append(f"| {idx} | {module_link} | {kw_str} | {date_str} | {image_count} | {text_count} | {default_texts} | {preview} |")
     return "\n".join(lines)
+
 
 def main():
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
 
     modules_info = []
-    total_keywords = 0
+    previews_by_module = {}
 
     for folder in os.listdir(MEMES_DIR):
         subdir = os.path.join(MEMES_DIR, folder)
         init_file = os.path.join(subdir, "__init__.py")
 
         if os.path.isdir(subdir) and os.path.isfile(init_file):
-            keywords, date_created = extract_info_from_init(init_file)
-            total_keywords += len(keywords)
+            info = extract_meme_info(init_file)
+            if info:
+                modules_info.append((folder, info))
+                image_path = find_first_image_path(subdir)
+                if image_path:
+                    relative_path = os.path.relpath(image_path, OUTPUT_DIR).replace("\\", "/")
+                    previews_by_module[folder] = relative_path
 
-            image_path = find_first_image_path(subdir)
-            relative_path = os.path.relpath(image_path, OUTPUT_DIR).replace("\\", "/") if image_path else None
-
-            modules_info.append((
-                folder,
-                {
-                    "keywords": keywords,
-                    "date_created": date_created or datetime.min,
-                    "preview": relative_path
-                }
-            ))
-
-    # 按 date_created 倒序排序
-    modules_info.sort(key=lambda x: x[1]["date_created"], reverse=True)
-
-    header = f"# ✨Meme Keywords\n\n**🎈总表情数：{total_keywords}**\n"
-    markdown_table = generate_markdown_table(modules_info)
-    markdown = header + "\n" + markdown_table
+    # 按创建时间倒序
+    modules_info.sort(key=lambda x: x[1]["date_created"] or datetime.min, reverse=True)
+    meme_count = len(modules_info)
+    header = f"# ✨Meme Keywords\n\n**🎈总表情数：{meme_count}**\n"
+    markdown_table = generate_markdown_table(modules_info, previews_by_module)
+    markdown = header + "\n\n" + markdown_table
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write(markdown)
 
     print(f"✅ 输出完成：{OUTPUT_FILE}")
+
 
 if __name__ == "__main__":
     main()
