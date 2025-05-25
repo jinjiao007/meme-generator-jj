@@ -5,7 +5,7 @@
 
 | # | 预览 | 关键词 | 图片数 | 文字数 | 默认文字 | 模块 | 创建日期 |
 |---|------|--------|-----------|--------|--------|------------|------|
-| 1 | <img src="../memes/buyaolian/images/0.png" width="100"> | 不要脸, 撕脸 | 1 | 1 | 我就是不要脸 你来撕我啊 | [buyaolian](../memes/buyaolian) | 2025-05-24 |
+| 1 | <img src="../memes/buyaolian/images/0.png" width="100"> | 不要脸、 撕脸 | 1 | 1 | 我就是不要脸 你来撕我啊 | [buyaolian](../memes/buyaolian) | 2025-05-24 |
 | 2 | <img src="../memes/pigcar/images/0.png" width="100"> | 猪猪车 | 2 | &nbsp; | &nbsp; | [pigcar](../memes/pigcar) | 2025-05-23 |
 | 3 | <img src="../memes/fulilian_v50/images/v50.png" width="100"> | 芙莉莲v50 | 1 | 0 | &nbsp; | [fulilian_v50](../memes/fulilian_v50) | 2025-05-22 |
 | 4 | <img src="../memes/xiatou/images/0.png" width="100"> | 丅亠 | 1 | 1 | 这个群友，蒸丅亠！ | [xiatou](../memes/xiatou) | 2025-05-22 |
@@ -37,4 +37,4 @@
 | 30 | <img src="../memes/spinner/images/0.png" width="100"> | 陀螺 | 1 | &nbsp; | &nbsp; | [spinner](../memes/spinner) | 2025-05-13 |
 | 31 | <img src="../memes/interaction/images/0.png" width="100"> | 互动 | 2 | &nbsp; | &nbsp; | [interaction](../memes/interaction) | 2025-05-12 |
 | 32 | <img src="../memes/turtle_jue/images/0.png" width="100"> | 龟龟撅 | 2 | &nbsp; | &nbsp; | [turtle_jue](../memes/turtle_jue) | 2025-05-12 |
-| 33 | <img src="../memes/pineapple/images/0.png" width="100"> | 菠萝, pineapple | 1 | &nbsp; | &nbsp; | [pineapple](../memes/pineapple) | 2024-11-10 |
+| 33 | <img src="../memes/pineapple/images/0.png" width="100"> | 菠萝、 pineapple | 1 | &nbsp; | &nbsp; | [pineapple](../memes/pineapple) | 2024-11-10 |
