@@ -56,7 +56,7 @@ def find_first_image_path(subdir):
 
 def generate_markdown_table(modules_info, previews_by_module):
     lines = [
-        "| # | 模块 | 关键词 | 创建日期 | 图片数 | 文字数 | 默认文字 | 预览 |",
+        "| # | 预览 | 关键词 | 创建日期 | 图片数 | 文字数 | 默认文字 | 模块 |",
         "|---|------|--------|-----------|--------|--------|------------|------|"
     ]
     for idx, (module, info) in enumerate(modules_info, 1):
@@ -67,7 +67,7 @@ def generate_markdown_table(modules_info, previews_by_module):
         text_count = str(info.get("min_texts")) if info.get("min_texts") is not None else "&nbsp;"
         default_texts = ", ".join(t.replace("\n", "") for t in info["default_texts"]) if info["default_texts"] else "&nbsp;"
         preview = f'<img src="{previews_by_module.get(module)}" width="100">' if module in previews_by_module else "&nbsp;"
-        lines.append(f"| {idx} | {module_link} | {kw_str} | {date_str} | {image_count} | {text_count} | {default_texts} | {preview} |")
+        lines.append(f"| {idx} | {preview} | {kw_str} | {date_str} | {image_count} | {text_count} | {default_texts} | {module_link} |")
     return "\n".join(lines)
 
 
