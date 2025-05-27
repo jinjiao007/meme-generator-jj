@@ -56,16 +56,16 @@ def find_first_image_path(subdir):
 
 def generate_markdown_table(modules_info, previews_by_module):
     lines = [
-        "| # | 预览 | 关键词 | 图片数 | 文字数 | 默认文字 | 模块 | 创建日期 |",
+        "| # | 预览 | 关键词 | 图片 | 文字 | 默认文字 | 模块 | 创建日期 |",
         "|---|------|--------|-----------|--------|--------|------------|------|"
     ]
     for idx, (module, info) in enumerate(modules_info, 1):
-        kw_str = "、 ".join(info["keywords"]) if info["keywords"] else "&nbsp;"
+        kw_str = "</br>".join(info["keywords"]) if info["keywords"] else "&nbsp;"
         module_link = f"[{module}](.{MEMES_DIR}/{module})"
         date_str = info["date_created"].strftime("%Y-%m-%d") if info["date_created"] else "&nbsp;"
         image_count = str(info.get("min_images")) if info.get("min_images") is not None else "&nbsp;"
         text_count = str(info.get("min_texts")) if info.get("min_texts") is not None else "&nbsp;"
-        default_texts = "、 ".join(t.replace("\n", "") for t in info["default_texts"]) if info["default_texts"] else "&nbsp;"
+        default_texts = "</br>".join(t.replace("\n", "</br>") for t in info["default_texts"]) if info["default_texts"] else "&nbsp;"
         preview = f'<img src="{previews_by_module.get(module)}" width="100">' if module in previews_by_module else "&nbsp;"
         lines.append(f"| {idx} | {preview} | {kw_str} | {image_count} | {text_count} | {default_texts} | {module_link} | {date_str} |")
     return "\n".join(lines)
