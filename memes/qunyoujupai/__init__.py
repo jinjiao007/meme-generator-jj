@@ -1,67 +1,78 @@
 from datetime import datetime
 from pathlib import Path
 
-from PIL.Image import Image as IMG
 from pil_utils import BuildImage, Text2Image
+from PIL.Image import Image as IMG
 
-from meme_generator import add_meme
-from meme_generator.utils import save_gif
+from meme_generator import add_meme, MemeArgsModel, MemeArgsType, ParserArg, ParserOption
 from meme_generator.exception import TextOverLength
+from meme_generator.tags import MemeTags
 
 img_dir = Path(__file__).parent / "images"
+help_text = "指定名字"
 
-def buyaolian(images: list[BuildImage], texts: list[str], args):
-    img = images[0].convert("RGBA").square()  # 将用户头像转换为方形
+# 添加 Model 类，用于处理命令行参数
+class Model(MemeArgsModel):
+    name: str = ""
+
+args_type = MemeArgsType(
+    args_model=Model,
+    parser_options=[
+        ParserOption(
+            names=["-n", "--name"],
+            args=[ParserArg(name="name", value="str")],
+            help_text=help_text,
+        ),
+    ],
+)
+
+def qunyoujupai(images: list[BuildImage], texts: list[str], args):
+    # 处理用户名
+    name = args.name
+    if not name:
+        name = "晓楠嬢"  # 默认用户名
+    if len(name) > 8:
+        name = name[:8]  # 限制用户名字数为8个字以内
+    name_length = len(name)
+    font_size = 72
+    name_img = Text2Image.from_text(name, font_size, fill="#1b1b1b").to_image()
     
-    text = f"{texts[0]}"
-    text2image = Text2Image.from_text(
-        text, 35, fill=(0, 0, 0), stroke_width=3, stroke_fill="white",
-        font_families=["033-SSFangTangTi"]
-    ).wrap(400)
-    if text2image.height > 85:
-        raise TextOverLength(text)
-    text_img = text2image.to_image()
-
-    # 每帧中头像的位置和大小
-    one_locs = [
-        (130, 179, 93, 80), (130, 179, 93, 80), (137, 202, 94, 96), (152, 248, 95, 100),
-        (188, 313, 69, 74)
-    ]
-    tow_locs = [
-        (137, 85, 90, 82), (139, 111, 93, 80), (138, 172, 90, 91), (138, 172, 90, 91),
-    ]
-    frames: list[IMG] = []
-    for i in range(6):
-        bg = BuildImage.open(img_dir / f"{i}.png")  # 打开背景图
-        frame = BuildImage.new("RGBA", bg.size, "white")  # 创建新帧
-        
-        # 获取 current_loc 的位置和大小
-        if i < len(one_locs):
-            x1, y1, w1, h1 = one_locs[i]
-            frame.paste(img.resize((w1, h1)), (x1, y1), alpha=True)
-        # 获取tow_loc的位置和大小
-        if 1 <= i <=4:
-            x2, y2, w2, h2 = tow_locs[i-1]  # 获取tow_locs对应位置的坐标
-            frame.paste(img.resize((w2, h2)), (x2, y2), alpha=True)
-        # 粘贴背景图
-        frame.paste(bg, alpha=True)
-        text_w, _ = text_img.size
+    img = images[0].convert("RGBA").circle().resize((200, 200))
+    text = texts[0]
+    frame = BuildImage.open(img_dir / "0.png")
+    try:        
+        frame.draw_text(
+            (136, 385, 494, 546),
+            text,
+            fill=(0, 0, 0),
+            allow_wrap=True,
+            max_fontsize=72,
+            min_fontsize=18,
+            lines_align="center",
+            font_families=["FZSJ-QINGCRJ"],
+        )
+        # 粘贴用户名字
+        text_w, _ = name_img.size
         x = (frame.width - text_w) // 2  # 居中对齐的x坐标
-        frame.paste(text_img, (x, 18), alpha=True)
-        frames.append(frame.image)  # 添加当前帧到帧列表
+        frame.paste(name_img, (x, 26), alpha=True)
+        frame.paste(img, (215, 138), alpha=True)        
+    except ValueError:
+        raise TextOverLength(text)
     
-    return save_gif(frames, 0.1)  # 保存为GIF，帧间隔0.08秒
+    return frame.save_jpg()
 
 
 add_meme(
-    "buyaolian",
-    buyaolian,
+    "qunyoujupai",
+    qunyoujupai,
     min_images=1,
     max_images=1,
     min_texts=1,
     max_texts=1,
-    default_texts=["我就是不要脸\n 你来撕我啊"],
-    keywords=["不要脸", "撕脸"],
-    date_created=datetime(2025, 5, 24),
-    date_modified=datetime(2025, 5, 24),
+    default_texts=["我是晓楠嬢"],
+    keywords=["群友举牌", "他举牌", "你举牌"],
+    args_type=args_type,
+    tags=MemeTags.mihoyo,
+    date_created=datetime(2025, 6, 10),
+    date_modified=datetime(2025, 6, 10),
 )
