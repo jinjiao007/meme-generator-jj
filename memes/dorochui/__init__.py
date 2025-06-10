@@ -40,7 +40,7 @@ def dorochui(images: list[BuildImage], texts, args):
         current_background = BuildImage.open(img_dir / f"{i}.png")
         base_frame.paste(current_background, (0, 0), alpha=True)
         frames.append(base_frame.image)
-    return save_gif(frames, 0.15)
+    return save_gif(frames, 0.02)
 
 
 add_meme(
