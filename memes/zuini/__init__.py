@@ -13,7 +13,7 @@ img_dir = Path(__file__).parent / "images"
 def zuini(images: list[BuildImage], texts, args):
     img = images[0].convert("RGBA").square()  # 将用户头像转换为方形
     # 创建一个与头像同尺寸的全白遮罩（表示完全不透明）
-    mask = BuildImage.new("L", img.size, 25)  # 创建一个全白的遮罩图像，尺寸与头像一致
+    mask = BuildImage.new("L", img.size, 35)  # 创建一个全白的遮罩图像，尺寸与头像一致
     mask = mask.image  # 获取底层的 PIL.Image.Image 对象
     # 0-9帧中头像的位置
     one_locs = [
