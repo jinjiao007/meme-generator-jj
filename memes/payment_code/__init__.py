@@ -12,7 +12,7 @@ img_dir = Path(__file__).parent / "images"
 default_text = "02大撒杯"
 
 
-def Payment_code(images: list[BuildImage], texts: list[str], args):
+def payment_code(images: list[BuildImage], texts: list[str], args):
     frame = BuildImage.open(img_dir / "0.png")
     text = texts[0] if texts else default_text
     try:
@@ -36,8 +36,8 @@ def Payment_code(images: list[BuildImage], texts: list[str], args):
 
 
 add_meme(
-    "Payment_code",
-    Payment_code,
+    "payment_code",
+    payment_code,
     min_images=1,
     max_images=1,
     min_texts=0,
