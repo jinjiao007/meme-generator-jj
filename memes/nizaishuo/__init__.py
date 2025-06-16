@@ -16,7 +16,7 @@ def nizaishuo(images: list[BuildImage], texts: list[str], args):
     frame = BuildImage.open(img_dir / "0.png")
     text = f"{texts[0]}"
     text2image = Text2Image.from_text(
-        text, 15, fill=(0, 0, 0), stroke_width=3, stroke_fill="white",
+        text, 15, fill=(0, 0, 0), stroke_width=3, stroke_fill="black",
         font_families=["033-SSFangTangTi"]
     ).wrap(200)
     if text2image.height > 80:
