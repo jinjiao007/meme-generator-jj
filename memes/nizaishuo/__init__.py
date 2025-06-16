@@ -17,7 +17,7 @@ def nizaishuo(images: list[BuildImage], texts: list[str], args):
     text = texts[0] if texts else default_text
     try:
         frame.draw_text(
-            (12, frame.height - 10, frame.width - 10, frame.height - 30),
+            (12, 7, 86, 41),
             text,
             min_fontsize=10,
             max_fontsize=15,
