@@ -14,21 +14,19 @@ default_text = "02大撒杯，闭嘴！"
 
 def nizaishuo(images: list[BuildImage], texts: list[str], args):
     frame = BuildImage.open(img_dir / "0.png")
-    text = texts[0] if texts else default_text
-    try:
-        frame.draw_text(
-            (12, 7, 86, 41),
-            text,
-            min_fontsize=10,
-            max_fontsize=15,
-            fill="white",
-            allow_wrap=True,
-            lines_align="center",
-        )
-    except ValueError:
+    text = f"{texts[0]}"
+    text2image = Text2Image.from_text(
+        text, 15, fill=(0, 0, 0), stroke_width=3, stroke_fill="white",
+        font_families=["033-SSFangTangTi"]
+    ).wrap(200)
+    if text2image.height > 80:
         raise TextOverLength(text)
+    text_img = text2image.to_image()
 
     def make(imgs: list[BuildImage]) -> BuildImage:
+        text_w, _ = text_img.size
+        x = (frame.width - text_w) // 2  # 居中对齐的x坐标
+        frame.paste(text_img, (x, 12), alpha=True)
         img = imgs[0].convert("RGBA").resize((60, 50), keep_ratio=True, inside=True)
         return frame.copy().paste(img, (88, 14), alpha=True)
 
