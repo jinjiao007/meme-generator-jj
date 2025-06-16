@@ -19,8 +19,8 @@ def nizaishuo(images: list[BuildImage], texts: list[str], args):
         frame.draw_text(
             (12, frame.height - 10, frame.width - 10, frame.height - 30),
             text,
-            min_fontsize=100,
-            max_fontsize=500,
+            min_fontsize=10,
+            max_fontsize=15,
             fill="white",
             allow_wrap=True,
             lines_align="center",
