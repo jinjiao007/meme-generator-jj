@@ -1,6 +1,6 @@
 # ✨Meme Keywords
 
-**🎈总表情数：49**
+**🎈总表情数：50**
 
 
 | # | 预览 | 关键词 | 图片 | 文字 | 默认文字 | 模块 | 创建日期 |
@@ -54,3 +54,4 @@
 | 47 | <div style="text-align:center"><img src="../memes/interaction/images/0.png" height="50"></div> | 互动 | 2 | &nbsp; | &nbsp; | [interaction](../memes/interaction) | 2025-05-12 |
 | 48 | <div style="text-align:center"><img src="../memes/turtle_jue/images/0.png" height="50"></div> | 龟龟撅 | 2 | &nbsp; | &nbsp; | [turtle_jue](../memes/turtle_jue) | 2025-05-12 |
 | 49 | <div style="text-align:center"><img src="../memes/pineapple/images/0.png" height="50"></div> | 菠萝</br>pineapple | 1 | &nbsp; | &nbsp; | [pineapple](../memes/pineapple) | 2024-11-10 |
+| 50 | <div style="text-align:center"><img src="../memes/payment_code/images/0.png" height="50"></div> | 收款码</br>付款码 | 1 | 0 | &nbsp; | [payment_code](../memes/payment_code) | 2024-05-12 |
