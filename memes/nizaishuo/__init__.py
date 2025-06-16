@@ -1,7 +1,7 @@
 from datetime import datetime
 from pathlib import Path
 
-from pil_utils import BuildImage
+from pil_utils import BuildImage, Text2Image
 
 from meme_generator import add_meme
 from meme_generator.exception import TextOverLength
