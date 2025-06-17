@@ -39,7 +39,7 @@
 | 32 | <div style="text-align:center"><img src="../memes/keliplay/images/0.png" height="50"></div> | 可莉打 | 1 | &nbsp; | &nbsp; | [keliplay](../memes/keliplay) | 2025-05-19 |
 | 33 | <div style="text-align:center"><img src="../memes/gongzei/images/0.png" height="50"></div> | 工贼 | 1 | 1 | 我爱加班 | [gongzei](../memes/gongzei) | 2025-05-17 |
 | 34 | <div style="text-align:center"><img src="../memes/dafen/images/0.png" height="50"></div> | 打分 | 1 | 1 | 满分 | [dafen](../memes/dafen) | 2025-05-17 |
-| 35 | <div style="text-align:center"><img src="../memes/myplay/images/0.png" height="50"></div> | 我打 | 1 | 1 | 笨死了 | [myplay](../memes/myplay) | 2025-05-17 |
+| 35 | <div style="text-align:center"><img src="../memes/myplay/images/0.png" height="50"></div> | 我敲 | 1 | 1 | 笨死了 | [myplay](../memes/myplay) | 2025-05-17 |
 | 36 | <div style="text-align:center"><img src="../memes/onepunch/images/0.png" height="50"></div> | 给你一拳 | 1 | &nbsp; | &nbsp; | [onepunch](../memes/onepunch) | 2025-05-16 |
 | 37 | <div style="text-align:center"><img src="../memes/chuangfei/images/0.png" height="50"></div> | 创飞 | 1 | &nbsp; | &nbsp; | [chuangfei](../memes/chuangfei) | 2025-05-15 |
 | 38 | <div style="text-align:center"><img src="../memes/play_baseball/images/0.png" height="50"></div> | 打棒球 | 1 | &nbsp; | &nbsp; | [play_baseball](../memes/play_baseball) | 2025-05-15 |
