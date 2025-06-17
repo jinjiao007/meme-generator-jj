@@ -108,7 +108,7 @@ add_meme(
     max_texts=1,
     default_texts=["笨死了"],
     args_type=args_type,
-    keywords=["我打"],
+    keywords=["我敲"],
     date_created=datetime(2025, 5, 17),
     date_modified=datetime(2025, 5, 17),
 )
