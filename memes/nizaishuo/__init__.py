@@ -5,18 +5,18 @@ from pil_utils import BuildImage, Text2Image
 
 from meme_generator import add_meme
 from meme_generator.exception import TextOverLength
-from meme_generator.utils import make_jpg_or_gif
+from meme_generator.utils import make_png_or_gif
 
 img_dir = Path(__file__).parent / "images"
 
-default_text = "02大撒杯，闭嘴！"
+default_text = "你闭嘴！"
 
 
 def nizaishuo(images: list[BuildImage], texts: list[str], args):
     frame = BuildImage.open(img_dir / "0.png")
     text = f"{texts[0]}"
     text2image = Text2Image.from_text(
-        text, 15, fill=(0, 0, 0), stroke_width=3, stroke_fill="black",
+        text, 20, fill=(255, 255, 255), stroke_width=1, stroke_fill="black",
         font_families=["033-SSFangTangTi"]
     ).wrap(200)
     if text2image.height > 80:
@@ -24,13 +24,13 @@ def nizaishuo(images: list[BuildImage], texts: list[str], args):
     text_img = text2image.to_image()
 
     def make(imgs: list[BuildImage]) -> BuildImage:
+        img = imgs[0].convert("RGBA").circle().resize((60, 50), keep_ratio=True, inside=True)
         text_w, _ = text_img.size
         x = (frame.width - text_w) // 2  # 居中对齐的x坐标
-        frame.paste(text_img, (x, 12), alpha=True)
-        img = imgs[0].convert("RGBA").resize((60, 50), keep_ratio=True, inside=True)
+        frame.paste(text_img, (x, 12), alpha=True)        
         return frame.copy().paste(img, (88, 14), alpha=True)
 
-    return make_jpg_or_gif(images, make)
+    return make_png_or_gif(images, make)
 
 
 add_meme(
