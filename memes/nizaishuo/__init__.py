@@ -9,8 +9,6 @@ from meme_generator.utils import make_png_or_gif
 
 img_dir = Path(__file__).parent / "images"
 
-default_text = "你闭嘴！"
-
 
 def nizaishuo(images: list[BuildImage], texts: list[str], args):
     frame = BuildImage.open(img_dir / "0.png")
@@ -38,8 +36,8 @@ add_meme(
     max_images=1,
     min_texts=0,
     max_texts=1,
-    default_texts=[default_text],
+    default_texts=["你闭嘴！"],
     keywords=["你再说", "你闭嘴"],
     date_created=datetime(2025, 6, 16),
-    date_modified=datetime(2025, 6, 16),
+    date_modified=datetime(2025, 6, 19),
 )
