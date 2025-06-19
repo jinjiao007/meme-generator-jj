@@ -7,7 +7,7 @@
 |:--:|:----:|:------:|:---------:|:------:|:------:|:----------:|:----:|
 | 1 | <div style="text-align:center"><img src="../memes/zuoyizuo/images/0.png" height="50"></div> | 唑一唑 | 1 | &nbsp; | &nbsp; | [zuoyizuo](../memes/zuoyizuo) | 2025-06-17 |
 | 2 | <div style="text-align:center"><img src="../memes/richu/images/0.png" height="50"></div> | 日出 | 1 | &nbsp; | &nbsp; | [richu](../memes/richu) | 2025-06-17 |
-| 3 | <div style="text-align:center"><img src="../memes/nizaishuo/images/0.png" height="50"></div> | 你再说</br>你闭嘴 | 1 | 0 | &nbsp; | [nizaishuo](../memes/nizaishuo) | 2025-06-16 |
+| 3 | <div style="text-align:center"><img src="../memes/nizaishuo/images/0.png" height="50"></div> | 你再说</br>你闭嘴 | 1 | 0 | 你闭嘴！ | [nizaishuo](../memes/nizaishuo) | 2025-06-16 |
 | 4 | <div style="text-align:center"><img src="../memes/downban/images/0.png" height="50"></div> | 下班 | 1 | 0 | &nbsp; | [downban](../memes/downban) | 2025-06-13 |
 | 5 | <div style="text-align:center"><img src="../memes/zuini/images/0.png" height="50"></div> | 嘴你 | 1 | &nbsp; | &nbsp; | [zuini](../memes/zuini) | 2025-06-11 |
 | 6 | <div style="text-align:center"><img src="../memes/qunyoujupai/images/0.png" height="50"></div> | 群友举牌</br>他举牌</br>你举牌 | 1 | 1 | 我是晓楠嬢 | [qunyoujupai](../memes/qunyoujupai) | 2025-06-10 |
