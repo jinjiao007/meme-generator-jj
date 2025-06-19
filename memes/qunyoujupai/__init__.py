@@ -37,12 +37,12 @@ def qunyoujupai(images: list[BuildImage], texts: list[str], args):
     font_size = 72
     name_img = Text2Image.from_text(name, font_size, fill="#1b1b1b").to_image()
     
-    img = images[0].convert("RGBA").circle().resize((200, 200))
+    img = images[0].convert("RGBA").resize((425, 425))
     text = texts[0]
     frame = BuildImage.open(img_dir / "0.png")
     try:        
         frame.draw_text(
-            (136, 385, 494, 546),
+            (218, 728, 768, 1104),
             text,
             fill=(0, 0, 0),
             allow_wrap=True,
@@ -55,7 +55,7 @@ def qunyoujupai(images: list[BuildImage], texts: list[str], args):
         text_w, _ = name_img.size
         x = (frame.width - text_w) // 2  # 居中对齐的x坐标
         frame.paste(name_img, (x, 26), alpha=True)
-        frame.paste(img, (215, 138), alpha=True)        
+        frame.paste(img, (300, 187), alpha=True,below=True)        
     except ValueError:
         raise TextOverLength(text)
     
@@ -74,5 +74,5 @@ add_meme(
     args_type=args_type,
     tags=MemeTags.mihoyo,
     date_created=datetime(2025, 6, 10),
-    date_modified=datetime(2025, 6, 10),
+    date_modified=datetime(2025, 6, 19),
 )
