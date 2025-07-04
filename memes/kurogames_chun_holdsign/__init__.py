@@ -35,7 +35,7 @@ add_meme(
     min_texts=1,
     max_texts=1,
     default_texts=["傻？我不傻"],
-    keywords=["椿举牌", "大傻椿举牌"],
+    keywords=["椿举牌"],
     tags=MemeTags.bronya,
     date_created=datetime(2025, 6, 30),
     date_modified=datetime(2025, 6, 30),
