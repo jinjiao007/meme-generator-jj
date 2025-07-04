@@ -7,7 +7,7 @@
 |:--:|:----:|:------:|:---------:|:------:|:------:|:----------:|:----:|
 | 1 | <div style="text-align:center"><img src="../memes/dorowaimai/images/0.png" height="50"></div> | doro外卖 | 1 | 1 | doro | [dorowaimai](../memes/dorowaimai) | 2025-07-04 |
 | 2 | <div style="text-align:center"><img src="../memes/zzdd/images/0.png" height="50"></div> | 指指点点 | 1 | &nbsp; | &nbsp; | [zzdd](../memes/zzdd) | 2025-07-03 |
-| 3 | <div style="text-align:center"><img src="../memes/kurogames_chun_holdsign/images/0.png" height="50"></div> | 椿举牌</br>大傻椿举牌 | &nbsp; | 1 | 傻？我不傻 | [kurogames_chun_holdsign](../memes/kurogames_chun_holdsign) | 2025-06-30 |
+| 3 | <div style="text-align:center"><img src="../memes/kurogames_chun_holdsign/images/0.png" height="50"></div> | 椿举牌 | &nbsp; | 1 | 傻？我不傻 | [kurogames_chun_holdsign](../memes/kurogames_chun_holdsign) | 2025-06-30 |
 | 4 | <div style="text-align:center"><img src="../memes/heike/images/0.png" height="50"></div> | 嘿壳</br>黑客</br>嘿客 | 1 | 0 | 嘿客 | [heike](../memes/heike) | 2025-06-27 |
 | 5 | <div style="text-align:center"><img src="../memes/sayhi/images/0.png" height="50"></div> | 打招呼 | 1 | 1 | 小奶龙 | [sayhi](../memes/sayhi) | 2025-06-25 |
 | 6 | <div style="text-align:center"><img src="../memes/zhogncheng/images/0.png" height="50"></div> | 忠诚 | 1 | 0 | 华为 | [zhogncheng](../memes/zhogncheng) | 2025-06-23 |
