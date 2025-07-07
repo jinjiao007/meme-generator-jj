@@ -17,7 +17,7 @@ def dorojupai(images, texts: list[str], args):
         frame.draw_text(
             (35, 219, 210, 314),
             text,
-            fill=(0, 0, 0),
+            fill=(255, 255, 255),
             allow_wrap=True,
             max_fontsize=60,
             min_fontsize=20,
