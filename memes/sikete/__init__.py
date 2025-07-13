@@ -6,7 +6,7 @@ from PIL.Image import Image as IMG
 
 from meme_generator import add_meme, MemeArgsModel, MemeArgsType, ParserArg, ParserOption
 from meme_generator.exception import TextOverLength
-from meme_generator.tags import MemeTags
+
 
 img_dir = Path(__file__).parent / "images"
 help_text = "指定名字"
@@ -26,24 +26,24 @@ args_type = MemeArgsType(
     ],
 )
 
-def sikete(images: list[BuildImage], texts: list[str], args):
+def sikete(images: list[BuildImage], texts: list[str], args: Model):
     # 处理用户名
     name = args.name
-    name = "正义斯科特"  # 默认用户名
+    if not name:
+        name = "正义斯科特"  # 默认用户名
+    if len(name) > 20:
+        name = name[:20]  # 限制用户名字数为20个字以内
+    name_length = len(name)
     font_size = 18
     name_img = Text2Image.from_text(name, font_size, fill="#e8d6ad").to_image()
     
     img = images[0].convert("RGBA").circle().resize((260, 230))
     text = texts[0]
     frame_bg = BuildImage.open(img_dir / "0.png")  # 背景图片
-    
-    # 创建新画布，大小与背景相同
     frame = BuildImage.new("RGBA", frame_bg.size, (0, 0, 0, 0))
     
     try:
-        # 先粘贴用户头像作为底层（在背景透明区域会显示）
         frame.paste(img, (135, 31), alpha=True)
-        # 覆盖背景图片（背景中间的透明区域会露出头像）
         frame.paste(frame_bg, (0, 0), alpha=True)
         
         # 绘制文本和名字（在背景上层）
@@ -77,7 +77,6 @@ add_meme(
     default_texts=["那我的屁股怎么办"],
     keywords=["斯科特"],
     args_type=args_type,
-    tags=MemeTags.mihoyo,
     date_created=datetime(2025, 7, 13),
     date_modified=datetime(2025, 7, 13),
 )
