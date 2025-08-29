@@ -61,7 +61,7 @@ def generate_markdown_table(modules_info, previews_by_module):
     ]
     for idx, (module, info) in enumerate(modules_info, 1):
         kw_str = "</br>".join(info["keywords"]) if info["keywords"] else "&nbsp;"
-        module_link = f"[{module}](../master/memes/{module})"
+        module_link = f"[{module}](../../master/memes/{module})"
         date_str = info["date_created"].strftime("%Y-%m-%d") if info["date_created"] else "&nbsp;"
         image_count = str(info.get("min_images")) if info.get("min_images") is not None else "&nbsp;"
         text_count = str(info.get("min_texts")) if info.get("min_texts") is not None else "&nbsp;"
@@ -89,7 +89,7 @@ def main():
                 image_path = find_first_image_path(subdir)
                 if image_path:
                     # 使用相对路径指向 master 分支
-                    relative_path = f"../master/{image_path}"
+                    relative_path = f"../../master/{image_path}"
                     previews_by_module[folder] = relative_path
 
     # 按创建时间倒序
