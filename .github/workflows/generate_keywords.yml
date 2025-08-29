@@ -24,16 +24,25 @@ jobs:
       - name: Install dependencies
         run: pip install --upgrade pip
 
+      - name: Backup current meme_keywords.md if exists
+        run: |
+          if [ -f docs/meme_keywords.md ]; then
+            cp docs/meme_keywords.md docs/meme_keywords.md.backup
+            echo "Backed up existing meme_keywords.md"
+          else
+            echo "No existing meme_keywords.md found"
+          fi
+
       - name: Run meme_keywords.py
         run: python meme_keywords.py
 
       - name: Check if meme_keywords.md changed
         id: check_diff
         run: |
-          if [ ! -f docs/meme_keywords.md ]; then
-            echo "meme_keywords.md not found, will create it."
+          if [ ! -f docs/meme_keywords.md.backup ]; then
+            echo "No backup file, this is a new file."
             echo "changed=true" >> $GITHUB_OUTPUT
-          elif git diff --quiet docs/meme_keywords.md; then
+          elif cmp -s docs/meme_keywords.md docs/meme_keywords.md.backup; then
             echo "No changes detected."
             echo "changed=false" >> $GITHUB_OUTPUT
           else
@@ -47,19 +56,34 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
+          # 保存生成的文档到临时位置
+          cp docs/meme_keywords.md /tmp/meme_keywords.md
+          
           # 检查 docs 分支是否存在
           if git ls-remote --heads origin docs | grep -q refs/heads/docs; then
             echo "docs branch exists, checking out"
             git fetch origin docs
             git checkout docs
-            git merge origin/master --no-edit --strategy-option=theirs
           else
-            echo "docs branch does not exist, creating it"
-            git checkout -b docs
+            echo "docs branch does not exist, creating orphan branch"
+            git checkout --orphan docs
+            # 删除所有文件
+            git rm -rf .
+            # 创建 docs 目录
+            mkdir -p docs
           fi
           
           # 复制生成的文档
+          cp /tmp/meme_keywords.md docs/meme_keywords.md
           git add docs/meme_keywords.md
           git commit -m "🤖 Auto-generate meme_keywords.md"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jinjiao007/meme-generator-jj.git
           git push origin docs
+
+      - name: Cleanup backup file
+        if: always()
+        run: |
+          if [ -f docs/meme_keywords.md.backup ]; then
+            rm docs/meme_keywords.md.backup
+            echo "Cleaned up backup file"
+          fi
