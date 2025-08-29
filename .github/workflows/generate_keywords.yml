@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整的 git 历史
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,8 +30,10 @@ jobs:
       - name: Check if meme_keywords.md changed
         id: check_diff
         run: |
-          git add docs/meme_keywords.md
-          if git diff --cached --quiet; then
+          if [ ! -f docs/meme_keywords.md ]; then
+            echo "meme_keywords.md not found, will create it."
+            echo "changed=true" >> $GITHUB_OUTPUT
+          elif git diff --quiet docs/meme_keywords.md; then
             echo "No changes detected."
             echo "changed=false" >> $GITHUB_OUTPUT
           else
@@ -37,11 +41,25 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Commit and push changes
+      - name: Switch to docs branch and commit changes
         if: steps.check_diff.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # 检查 docs 分支是否存在
+          if git ls-remote --heads origin docs | grep -q refs/heads/docs; then
+            echo "docs branch exists, checking out"
+            git fetch origin docs
+            git checkout docs
+            git merge origin/master --no-edit --strategy-option=theirs
+          else
+            echo "docs branch does not exist, creating it"
+            git checkout -b docs
+          fi
+          
+          # 复制生成的文档
+          git add docs/meme_keywords.md
           git commit -m "🤖 Auto-generate meme_keywords.md"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jinjiao007/meme-generator-jj.git
-          git push origin master
+          git push origin docs

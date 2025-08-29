@@ -9,7 +9,7 @@ from meme_generator.utils import make_jpg_or_gif
 
 img_dir = Path(__file__).parent / "images"
 
-default_text = "02大撒杯"
+default_text = "收款码"
 
 
 def payment_code(images: list[BuildImage], texts: list[str], args):

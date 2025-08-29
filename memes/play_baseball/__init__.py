@@ -60,7 +60,7 @@ def play_baseball(images: list[BuildImage], texts, args):
 
 
 add_meme(
-    "play_baseball",
+    "a_jj_play_baseball",
     play_baseball,
     min_images=1,
     max_images=1,

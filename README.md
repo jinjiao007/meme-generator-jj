@@ -2,7 +2,7 @@
 
 🚀 基于  [meme-generator](https://github.com/MemeCrafters/meme-generator) 做的扩展表情包仓库
 
-## [表情列表](docs/meme_keywords.md)
+## [表情列表](../docs/docs/meme_keywords.md)
 
 ## 使用方式
 
