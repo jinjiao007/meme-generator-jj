@@ -56,21 +56,33 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          # 克隆 Wiki 仓库
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jinjiao007/meme-generator-jj.wiki.git wiki
-          cd wiki
-          
-          # 复制生成的文档到 Wiki，重命名为表情列表.md
-          cp ../docs/meme_keywords.md "表情列表.md"
-          
-          # 检查是否有变化
-          if git diff --quiet; then
-            echo "No changes in wiki"
+          # 检查 Wiki 仓库是否存在
+          if git ls-remote https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jinjiao007/meme-generator-jj.wiki.git &>/dev/null; then
+            echo "Wiki repository exists, proceeding with update"
+            
+            # 克隆 Wiki 仓库
+            git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jinjiao007/meme-generator-jj.wiki.git wiki
+            cd wiki
+            
+            # 复制生成的文档到 Wiki，重命名为表情列表.md
+            cp ../docs/meme_keywords.md "表情列表.md"
+            
+            # 检查是否有变化
+            if git diff --quiet; then
+              echo "No changes in wiki"
+            else
+              git add "表情列表.md"
+              git commit -m "🤖 Auto-update 表情列表"
+              git push origin master
+              echo "Wiki updated successfully"
+            fi
           else
-            git add "表情列表.md"
-            git commit -m "🤖 Auto-update 表情列表"
-            git push origin master
-            echo "Wiki updated successfully"
+            echo "⚠️ Wiki repository does not exist yet."
+            echo "Please create a Wiki page manually first by:"
+            echo "1. Go to your GitHub repository"
+            echo "2. Click on 'Wiki' tab"
+            echo "3. Create a new page called '表情列表'"
+            echo "4. The workflow will automatically update it on the next run"
           fi
 
       - name: Cleanup backup file
