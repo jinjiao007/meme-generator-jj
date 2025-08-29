@@ -6,6 +6,9 @@ MEMES_DIR = "./memes"
 OUTPUT_DIR = "./docs"
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "meme_keywords.md")
 
+# GitHub 仓库信息 - 用于 Wiki 链接
+GITHUB_REPO = os.getenv("GITHUB_REPOSITORY", "jinjiao007/meme-generator-jj")
+
 
 def extract_meme_info(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
@@ -61,7 +64,7 @@ def generate_markdown_table(modules_info, previews_by_module):
     ]
     for idx, (module, info) in enumerate(modules_info, 1):
         kw_str = "</br>".join(info["keywords"]) if info["keywords"] else "&nbsp;"
-        module_link = f"[{module}](../../master/memes/{module})"
+        module_link = f"[{module}](https://github.com/{GITHUB_REPO}/tree/master/memes/{module})"
         date_str = info["date_created"].strftime("%Y-%m-%d") if info["date_created"] else "&nbsp;"
         image_count = str(info.get("min_images")) if info.get("min_images") is not None else "&nbsp;"
         text_count = str(info.get("min_texts")) if info.get("min_texts") is not None else "&nbsp;"
@@ -88,9 +91,9 @@ def main():
                 modules_info.append((folder, info))
                 image_path = find_first_image_path(subdir)
                 if image_path:
-                    # 使用相对路径指向 master 分支
-                    relative_path = f"../../master/{image_path}"
-                    previews_by_module[folder] = relative_path
+                    # 使用 GitHub raw 链接，让 Wiki 能正确显示图片
+                    github_raw_path = f"https://raw.githubusercontent.com/{GITHUB_REPO}/master/{image_path}"
+                    previews_by_module[folder] = github_raw_path
 
     # 按创建时间倒序
     modules_info.sort(key=lambda x: x[1]["date_created"] or datetime.min, reverse=True)

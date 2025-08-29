@@ -50,38 +50,28 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Switch to docs branch and commit changes
+      - name: Update GitHub Wiki
         if: steps.check_diff.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          # 保存生成的文档到临时位置
-          cp docs/meme_keywords.md /tmp/meme_keywords.md
+          # 克隆 Wiki 仓库
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jinjiao007/meme-generator-jj.wiki.git wiki
+          cd wiki
           
-          # 清理工作目录，避免切换分支时冲突
-          rm -rf docs/
+          # 复制生成的文档到 Wiki，重命名为表情列表.md
+          cp ../docs/meme_keywords.md "表情列表.md"
           
-          # 检查 docs 分支是否存在
-          if git ls-remote --heads origin docs | grep -q refs/heads/docs; then
-            echo "docs branch exists, checking out"
-            git fetch origin docs
-            git checkout -B docs origin/docs
+          # 检查是否有变化
+          if git diff --quiet; then
+            echo "No changes in wiki"
           else
-            echo "docs branch does not exist, creating orphan branch"
-            git checkout --orphan docs
-            # 删除所有文件
-            git rm -rf .
-            # 创建 docs 目录
-            mkdir -p docs
+            git add "表情列表.md"
+            git commit -m "🤖 Auto-update 表情列表"
+            git push origin master
+            echo "Wiki updated successfully"
           fi
-          
-          # 复制生成的文档
-          cp /tmp/meme_keywords.md docs/meme_keywords.md
-          git add docs/meme_keywords.md
-          git commit -m "🤖 Auto-generate meme_keywords.md"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jinjiao007/meme-generator-jj.git
-          git push origin docs
 
       - name: Cleanup backup file
         if: always()
