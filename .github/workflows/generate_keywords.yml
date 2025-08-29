@@ -63,7 +63,7 @@ jobs:
           if git ls-remote --heads origin docs | grep -q refs/heads/docs; then
             echo "docs branch exists, checking out"
             git fetch origin docs
-            git checkout docs
+            git checkout -B docs origin/docs
           else
             echo "docs branch does not exist, creating orphan branch"
             git checkout --orphan docs
