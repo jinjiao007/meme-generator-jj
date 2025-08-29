@@ -59,6 +59,9 @@ jobs:
           # 保存生成的文档到临时位置
           cp docs/meme_keywords.md /tmp/meme_keywords.md
           
+          # 清理工作目录，避免切换分支时冲突
+          rm -rf docs/
+          
           # 检查 docs 分支是否存在
           if git ls-remote --heads origin docs | grep -q refs/heads/docs; then
             echo "docs branch exists, checking out"
