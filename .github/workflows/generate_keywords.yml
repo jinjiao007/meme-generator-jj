@@ -64,14 +64,30 @@ jobs:
             git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jinjiao007/meme-generator-jj.wiki.git wiki
             cd wiki
             
-            # 复制生成的文档到 Wiki，重命名为表情列表.md
+            # 列出当前 Wiki 中的文件
+            echo "Current files in wiki:"
+            ls -la
+            
+            # 复制生成的文档到 Wiki，使用中文文件名
             cp ../docs/meme_keywords.md "表情列表.md"
+            echo "Copied meme_keywords.md to 表情列表.md"
+            
+            # 显示文件内容的前几行进行调试
+            echo "First 10 lines of 表情列表.md:"
+            head -10 "表情列表.md"
+            
+            # 添加文件到 git
+            git add "表情列表.md"
+            
+            # 检查 git 状态
+            echo "Git status:"
+            git status
             
             # 检查是否有变化
-            if git diff --quiet; then
-              echo "No changes in wiki"
+            if git diff --cached --quiet; then
+              echo "No changes in wiki after staging"
             else
-              git add "表情列表.md"
+              echo "Changes detected, committing..."
               git commit -m "🤖 Auto-update 表情列表"
               git push origin master
               echo "Wiki updated successfully"
