@@ -9,7 +9,7 @@ from meme_generator.utils import make_jpg_or_gif
 
 img_dir = Path(__file__).parent / "images"
 
-default_text = "收款码"
+default_text = "02大撒杯"
 
 
 def payment_code(images: list[BuildImage], texts: list[str], args):
@@ -17,10 +17,10 @@ def payment_code(images: list[BuildImage], texts: list[str], args):
     text = texts[0] if texts else default_text
     try:
         frame.draw_text(
-            (100, frame.height - 220, frame.width - 100, frame.height - 30),
+            (40, 576, 454, 642),
             text,
-            min_fontsize=100,
-            max_fontsize=500,
+            min_fontsize=20,
+            max_fontsize=72,
             fill="white",
             allow_wrap=True,
             lines_align="center",
@@ -29,8 +29,8 @@ def payment_code(images: list[BuildImage], texts: list[str], args):
         raise TextOverLength(text)
 
     def make(imgs: list[BuildImage]) -> BuildImage:
-        img = imgs[0].convert("RGBA").resize((720, 720), keep_ratio=True, inside=True)
-        return frame.copy().paste(img, (240, 445), alpha=True)
+        img = imgs[0].convert("RGBA").resize((300, 300), keep_ratio=True, inside=True)
+        return frame.copy().paste(img, (99, 184), alpha=True)
 
     return make_jpg_or_gif(images, make)
 
