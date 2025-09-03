@@ -8,7 +8,18 @@ OUTPUT_FILE = os.path.join(OUTPUT_DIR, "meme_keywords.md")
 
 # GitHub 仓库信息 - 用于 Wiki 链接
 GITHUB_REPO = os.getenv("GITHUB_REPOSITORY", "jinjiao007/meme-generator-jj")
-
+# 表格列宽配置
+# 格式: "列名": {"type": "width/max-width", "value": "数值"} 或 None (自适应)
+TABLE_COLUMN_WIDTHS = {
+    "index": {"type": "width", "value": "50"},           # # (固定宽度)
+    "preview": None,                                        # 预览 (自适应) 
+    "keywords": {"type": "max-width", "value": "180"},   # 关键词 (最大宽度)
+    "images": {"type": "width", "value": "70"},          # 图片 (固定宽度)
+    "texts": {"type": "width", "value": "70"},           # 文字 (固定宽度)
+    "defaults": {"type": "max-width", "value": "180"},   # 默认文字 (最大宽度)
+    "module": None,                                      # 模块 (自适应)
+    "date": {"type": "width", "value": "135"}            # 创建日期 (固定宽度)
+}
 
 def extract_meme_info(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
@@ -58,19 +69,56 @@ def find_first_image_path(subdir):
 
 
 def generate_markdown_table(modules_info, previews_by_module):
+    # 使用HTML表格来更好地控制列宽
+    def get_style_attr(width_config):
+        if not width_config:
+            return ''
+        width_type = width_config["type"]
+        width_value = width_config["value"]
+        return f' style="{width_type}: {width_value}px;"'
+    
     lines = [
-        "| # | 预览 | 关键词 | 图片 | 文字 | 默认文字 | 模块 | 创建日期 |",
-        "|:--:|:----:|:------:|:------:|:------:|:------:|:----------:|:------:|"
+        '<table>',
+        '<thead>',
+        '<tr>',
+        f'<th{get_style_attr(TABLE_COLUMN_WIDTHS["index"])}>#</th>',
+        f'<th{get_style_attr(TABLE_COLUMN_WIDTHS["preview"])}>预览</th>',
+        f'<th{get_style_attr(TABLE_COLUMN_WIDTHS["keywords"])}>关键词</th>',
+        f'<th{get_style_attr(TABLE_COLUMN_WIDTHS["images"])}>图片</th>',
+        f'<th{get_style_attr(TABLE_COLUMN_WIDTHS["texts"])}>文字</th>',
+        f'<th{get_style_attr(TABLE_COLUMN_WIDTHS["defaults"])}>默认文字</th>',
+        f'<th{get_style_attr(TABLE_COLUMN_WIDTHS["module"])}>模块</th>',
+        f'<th{get_style_attr(TABLE_COLUMN_WIDTHS["date"])}>创建日期</th>',
+        '</tr>',
+        '</thead>',
+        '<tbody>'
     ]
+    
     for idx, (module, info) in enumerate(modules_info, 1):
-        kw_str = "</br>".join(info["keywords"]) if info["keywords"] else "&nbsp;"
-        module_link = f"[{module}](https://github.com/{GITHUB_REPO}/tree/master/memes/{module})"
+        kw_str = "<br/>".join(info["keywords"]) if info["keywords"] else "&nbsp;"
+        module_link = f'<a href="https://github.com/{GITHUB_REPO}/tree/master/memes/{module}">{module}</a>'
         date_str = info["date_created"].strftime("%Y-%m-%d") if info["date_created"] else "&nbsp;"
         image_count = str(info.get("min_images")) if info.get("min_images") is not None else "&nbsp;"
         text_count = str(info.get("min_texts")) if info.get("min_texts") is not None else "&nbsp;"
-        default_texts = "</br>".join(t.replace("\n", "</br>") for t in info["default_texts"]) if info["default_texts"] else "&nbsp;"
-        preview = f'<div style="text-align:center"><img src="{previews_by_module.get(module)}" height="50" width="50" style="object-fit:cover;"></div>' if module in previews_by_module else "&nbsp;"
-        lines.append(f"| {idx} | {preview} | {kw_str} | {image_count} | {text_count} | {default_texts} | {module_link} | {date_str} |")
+        default_texts = "<br/>".join(t.replace("\n", "<br/>") for t in info["default_texts"]) if info["default_texts"] else "&nbsp;"
+        
+        if module in previews_by_module:
+            preview = f'<div align="center"><img src="{previews_by_module.get(module)}" height="50" width="50" style="object-fit:cover;"></div>'
+        else:
+            preview = "&nbsp;"
+            
+        lines.append(f'<tr>')
+        lines.append(f'<td align="center">{idx}</td>')
+        lines.append(f'<td align="center">{preview}</td>')
+        lines.append(f'<td>{kw_str}</td>')
+        lines.append(f'<td align="center">{image_count}</td>')
+        lines.append(f'<td align="center">{text_count}</td>')
+        lines.append(f'<td>{default_texts}</td>')
+        lines.append(f'<td>{module_link}</td>')
+        lines.append(f'<td align="center">{date_str}</td>')
+        lines.append(f'</tr>')
+    
+    lines.extend(['</tbody>', '</table>'])
     return "\n".join(lines)
 
 
@@ -102,26 +150,8 @@ def main():
     meme_count = len(modules_info)
     header = f"# ✨Meme Keywords\n\n**🎈总表情数：{meme_count}**\n"
     
-    # 添加CSS样式来固定列宽
-    css_style = """
-<style>
-table {
-    table-layout: fixed;
-    width: 100%;
-}
-table th:nth-child(1) { width: 50px; }   /* # */
-table th:nth-child(2) { width: auto; }   /* 预览 */
-table th:nth-child(3) { max-width: 180px; }   /* 关键词 */
-table th:nth-child(4) { width: 70px; }   /* 图片 */
-table th:nth-child(5) { width: 70px; }   /* 文字 */
-table th:nth-child(6) { max-width: 180px;  }   /* 默认文字 */
-table th:nth-child(7) { width: auto; }  /* 模块 */
-table th:nth-child(8) { width: 135px; }  /* 创建日期 */
-</style>
-"""
-    
-    markdown_table = generate_markdown_table(modules_info, previews_by_module)
-    markdown = header + "\n" + css_style + "\n\n" + markdown_table
+    html_table = generate_markdown_table(modules_info, previews_by_module)
+    markdown = header + "\n\n" + html_table
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write(markdown)
