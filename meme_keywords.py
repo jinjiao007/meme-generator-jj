@@ -12,7 +12,7 @@ GITHUB_REPO = os.getenv("GITHUB_REPOSITORY", "jinjiao007/meme-generator-jj")
 # 格式: "列名": {"type": "width/max-width", "value": "数值"} 或 None (自适应)
 TABLE_COLUMN_WIDTHS = {
     "index": {"type": "width", "value": "50"},           # # (固定宽度)
-    "preview": None,                                        # 预览 (自适应) 
+    "preview": None,                                        # 预览 (自适应)
     "keywords": {"type": "max-width", "value": "180"},   # 关键词 (最大宽度)
     "images": {"type": "width", "value": "70"},          # 图片 (固定宽度)
     "texts": {"type": "width", "value": "70"},           # 文字 (固定宽度)
@@ -103,7 +103,7 @@ def generate_markdown_table(modules_info, previews_by_module):
         default_texts = "<br/>".join(t.replace("\n", "<br/>") for t in info["default_texts"]) if info["default_texts"] else "&nbsp;"
         
         if module in previews_by_module:
-            preview = f'<div align="center"><img src="{previews_by_module.get(module)}" height="50" width="50" style="object-fit:cover;"></div>'
+            preview = f'<img src="{previews_by_module.get(module)}" width="50">'
         else:
             preview = "&nbsp;"
             
