@@ -11,6 +11,8 @@ img_dir = Path(__file__).parent / "images"
 
 help_text = "指定名字"
 
+default_text = "笨死了"
+
 # 添加 Model 类，用于处理命令行参数
 class Model(MemeArgsModel):
     name: str = ""
@@ -44,7 +46,7 @@ def myplay(images: list[BuildImage], texts: list[str], args: Model):
         ]
 
         # 处理文本
-        text = f"{texts[0]}"
+        text = texts[0] if texts else default_text
         text2image = Text2Image.from_text(text, 35, fill=(0, 0, 0), stroke_width=3, stroke_fill="white", font_families=["033-SSFangTangTi"]).wrap(440)
         if text2image.height > 500:
              raise TextOverLength(texts[0])
@@ -106,7 +108,7 @@ add_meme(
     max_images=1,
     min_texts=1,
     max_texts=1,
-    default_texts=["笨死了"],
+    default_texts=[default_text],
     args_type=args_type,
     keywords=["我敲"],
     date_created=datetime(2025, 5, 17),

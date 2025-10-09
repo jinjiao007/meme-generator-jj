@@ -10,6 +10,7 @@ from meme_generator import add_meme, MemeArgsModel, MemeArgsType, ParserArg, Par
 img_dir = Path(__file__).parent / "images"
 
 help_text = "指定名字"
+default_text = "我爱加班"
 
 # 添加 Model 类，用于处理命令行参数
 class Model(MemeArgsModel):
@@ -47,7 +48,7 @@ def gongzei(images: list[BuildImage], texts: list[str], args: Model):
     name_locs = [(225, 242), (225, 240), (225, 242), (225, 240)]
 
     # 处理文本
-    text = f"{texts[0]}"
+    text = texts[0] if texts else default_text
     text2image = Text2Image.from_text(text, 42, fill="black", font_families=["033-SSFangTangTi"]).wrap(440)
     if text2image.height > 500:
          raise TextOverLength(texts[0])
@@ -100,7 +101,7 @@ add_meme(
     max_images=1,
     min_texts=1,
     max_texts=1,
-    default_texts=["我爱加班"],
+    default_texts=[default_text],
     args_type=args_type,
     keywords=["工贼"],
     date_created=datetime(2025, 5, 17),

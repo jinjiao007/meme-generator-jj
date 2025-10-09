@@ -9,8 +9,10 @@ from meme_generator.utils import make_png_or_gif
 
 img_dir = Path(__file__).parent / "images"
 
+default_text = "嘿客"
+
 def heike(images: list[BuildImage], texts: list[str], args):
-    text = f"{texts[0]}"
+    text = texts[0] if texts else default_text
     text2image = Text2Image.from_text(
         text, 40, fill=(255, 255, 255), stroke_width=1, stroke_fill="black",
         font_families=["GlowSansSC-Normal-Heavy"]
@@ -41,7 +43,7 @@ add_meme(
     max_images=1,
     min_texts=0,
     max_texts=1,
-    default_texts=["嘿客"],
+    default_texts=[default_text],
     keywords=["嘿壳", "黑客", "嘿客"],
     date_created=datetime(2025, 6, 27),
     date_modified=datetime(2025, 6, 27),

@@ -10,10 +10,12 @@ from meme_generator.exception import TextOverLength
 
 img_dir = Path(__file__).parent / "images"
 
+default_text = "我就是不要脸\n 你来撕我啊"
+
 def buyaolian(images: list[BuildImage], texts: list[str], args):
     img = images[0].convert("RGBA").square()  # 将用户头像转换为方形
-    
-    text = f"{texts[0]}"
+
+    text = texts[0] if texts else default_text
     text2image = Text2Image.from_text(
         text, 35, fill=(0, 0, 0), stroke_width=3, stroke_fill="white",
         font_families=["033-SSFangTangTi"]
@@ -60,7 +62,7 @@ add_meme(
     max_images=1,
     min_texts=1,
     max_texts=1,
-    default_texts=["我就是不要脸\n 你来撕我啊"],
+    default_texts=[default_text],
     keywords=["不要脸", "撕脸"],
     date_created=datetime(2025, 5, 24),
     date_modified=datetime(2025, 5, 24),

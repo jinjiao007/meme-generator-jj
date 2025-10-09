@@ -8,9 +8,10 @@ from meme_generator.utils import make_png_or_gif
 
 img_dir = Path(__file__).parent / "images"
 
+default_text = "原神"
 
 def andwho(images: list[BuildImage], texts: list[str], args):
-    text = f"{texts[0]}"
+    text = texts[0] if texts else default_text
 
     # 动态字号：72 ～ 24
     max_size = 72
@@ -60,7 +61,7 @@ add_meme(
     max_images=1,
     min_texts=0,
     max_texts=1,
-    default_texts=["原神"],
+    default_texts=[default_text],
     keywords=["今天和谁过"],
     date_created=datetime(2025, 8, 29),
     date_modified=datetime(2025, 8, 29),

@@ -44,6 +44,6 @@ add_meme(
     max_texts=1,
     default_texts=[default_text],
     keywords=["肥仔网络皇帝", "网络皇帝", "皇帝"],
-    date_created=datetime(2025, 6, 27),
-    date_modified=datetime(2025, 6, 27),
+    date_created=datetime(2025, 9, 28),
+    date_modified=datetime(2025, 10, 9),
 )

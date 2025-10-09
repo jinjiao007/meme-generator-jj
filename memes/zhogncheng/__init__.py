@@ -9,10 +9,11 @@ from meme_generator.utils import make_png_or_gif
 
 img_dir = Path(__file__).parent / "images"
 
+default_text = "华为"
 
 def zhongcheng(images: list[BuildImage], texts: list[str], args):
     frame = BuildImage.open(img_dir / "0.png")
-    text = f"{texts[0]}"
+    text = texts[0] if texts else default_text
     text2image = Text2Image.from_text(
         text, 35, fill=(0, 0, 0), stroke_width=0, stroke_fill="red",
         font_families=["GlowSansSC-Normal-Heavy"]
@@ -48,7 +49,7 @@ add_meme(
     max_images=2,
     min_texts=0,
     max_texts=1,
-    default_texts=["华为"],
+    default_texts=[default_text],
     keywords=["忠诚"],
     date_created=datetime(2025, 6, 23),
     date_modified=datetime(2025, 6, 23),
