@@ -9,9 +9,10 @@ from meme_generator.tags import MemeTags
 
 img_dir = Path(__file__).parent / "images"
 
+default_text = "男銅！"
 
 def qiejupai(images, texts: list[str], args):
-    text = texts[0]
+    text = texts[0] if texts else default_text
     frame = BuildImage.open(img_dir / "0.png")
     try:
         frame.draw_text(
@@ -34,7 +35,7 @@ add_meme(
     qiejupai,
     min_texts=1,
     max_texts=1,
-    default_texts=["男銅！"],
+    default_texts=[default_text],
     keywords=["企鹅举牌"],
     tags=MemeTags.bronya,
     date_created=datetime(2025, 10, 22),

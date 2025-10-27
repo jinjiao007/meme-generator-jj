@@ -9,10 +9,11 @@ from meme_generator.utils import make_png_or_gif
 
 img_dir = Path(__file__).parent / "images"
 
+default_text = "大宝贝！"
 
 def yys_yuanjieshenpeng(images: list[BuildImage], texts: list[str], args):
     frame = BuildImage.open(img_dir / "0.png")
-    text = f"{texts[0]}"
+    text = texts[0] if texts else default_text
     text2image = Text2Image.from_text(
         text, 60, fill=(255, 0, 0), stroke_width=2, stroke_fill="white",
         font_families=["GlowSansSC-Normal-Heavy"]
@@ -38,7 +39,7 @@ add_meme(
     max_images=1,
     min_texts=0,
     max_texts=1,
-    default_texts=["大宝贝！"],
+    default_texts=[default_text],
     keywords=["缘结神举", "缘结神捧"],
     date_created=datetime(2025, 10, 13),
     date_modified=datetime(2025, 10, 13),
