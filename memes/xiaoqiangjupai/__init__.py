@@ -19,21 +19,21 @@ def xiaoqiangjupai(images: list[BuildImage], texts: list[str], args):
         if not text:
             raise ValueError("Text cannot be empty after stripping spaces")
 
-        # -------------------------- 修复：基于150*120区域适配最优字号 --------------------------
-        # 定义文本渲染的最大区域（宽150，高120）
-        TEXT_MAX_WIDTH = 150
-        TEXT_MAX_HEIGHT = 120
-        max_font_size = 30  # 最大字号
+        # -------------------------- 调整：文本最大宽度 --------------------------
+        # 定义文本渲染的最大区域（宽181，高150）
+        TEXT_MAX_WIDTH = 181  
+        TEXT_MAX_HEIGHT = 150
+        max_font_size = 50  # 最大字号
         min_font_size = 10  # 最小字号
         optimal_font_size = min_font_size  # 初始化最优字号为最小值
 
-        # 从最大字号向下试探，找到能放入150*120区域的最大字号
+        # 从最大字号向下试探，找到能放入区域的最大字号
         for font_size in range(max_font_size, min_font_size - 1, -1):
-            # 生成文本对象并按宽度150换行
+            
             temp_text2image = Text2Image.from_text(
                 text,
                 font_size=font_size,
-                fill=(255, 0, 0),
+                fill=(105, 61, 36),
                 stroke_width=0,
                 stroke_fill="white",
             ).wrap(TEXT_MAX_WIDTH)
@@ -43,7 +43,7 @@ def xiaoqiangjupai(images: list[BuildImage], texts: list[str], args):
             temp_width = temp_text_img.width
             temp_height = temp_text_img.height
             
-            # 检查文本是否能完整放入150*120区域
+            
             if temp_width <= TEXT_MAX_WIDTH and temp_height <= TEXT_MAX_HEIGHT:
                 optimal_font_size = font_size
                 break  # 找到最优字号，退出循环
@@ -52,7 +52,7 @@ def xiaoqiangjupai(images: list[BuildImage], texts: list[str], args):
         text2image = Text2Image.from_text(
             text,
             font_size=optimal_font_size,
-            fill=(255, 0, 0),
+            fill=(105, 61, 36),
             stroke_width=0,
             stroke_fill="white",
         ).wrap(TEXT_MAX_WIDTH)
@@ -61,23 +61,24 @@ def xiaoqiangjupai(images: list[BuildImage], texts: list[str], args):
         # 最终校验：即使到最小字号仍超出区域则抛异常
         if text_img.width > TEXT_MAX_WIDTH or text_img.height > TEXT_MAX_HEIGHT:
             raise TextOverLength(
-                f"文本过长！即使使用最小字号{min_font_size}，文本尺寸({text_img.width}x{text_img.height})仍超出150x120区域，建议大幅缩短文本"
+                f"文本过长！即使使用最小字号{min_font_size}，文本尺寸({text_img.width}x{text_img.height})仍超出区域，建议大幅缩短文本"
             )
         # -----------------------------------------------------------------------------------------
 
-        # 8-18帧对应的坐标列表（保持原有坐标）
+        # -------------------------- 调整：8-18帧的y轴坐标全部减5 --------------------------
+        # 8-18帧对应的坐标列表（y轴全减5，x轴不变）
         frame_coords = [
-            (148, 51),  # 第8帧
-            (185, 40),  # 第9帧
-            (200, 50),  # 第10帧
-            (205, 61),  # 第11帧
-            (204, 76),  # 第12帧
-            (203, 85),  # 第13帧
-            (204, 87),  # 第14帧
-            (205, 84),  # 第15帧
-            (202, 79),  # 第16帧
-            (203, 77),  # 第17帧
-            (203, 76),  # 第18帧
+            (131, 25),  # 第8帧
+            (164, 19),  # 第9帧
+            (181, 31),  # 第10帧
+            (185, 42),  # 第11帧
+            (184, 57),  # 第12帧
+            (185, 66),  # 第13帧
+            (187, 68),  # 第14帧
+            (187, 65),  # 第15帧
+            (185, 61),  # 第16帧
+            (184, 58),  # 第17帧
+            (185, 57),  # 第18帧
         ]
 
         # 合成帧
@@ -92,7 +93,7 @@ def xiaoqiangjupai(images: list[BuildImage], texts: list[str], args):
             if i >= 7:
                 coord_idx = i - 7
                 x, y = frame_coords[coord_idx] if coord_idx < len(frame_coords) else frame_coords[-1]
-                frame.paste(text_img, (x, y), alpha=True)  # 按原坐标粘贴文本
+                frame.paste(text_img, (x, y), alpha=True)  # 按修改后坐标粘贴文本
 
             frames.append(frame.image)
 
@@ -114,5 +115,5 @@ add_meme(
     default_texts=["活力大湾区，魅力新广州！"],
     keywords=["小强举牌"],
     date_created=datetime(2025, 12, 3),
-    date_modified=datetime(2025, 12, 3),
+    date_modified=datetime(2025, 12, 4),  # 修改日期更新为当前日期
 )
